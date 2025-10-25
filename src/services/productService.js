@@ -11,6 +11,11 @@ export const productService = {
     return response.data;
   },
 
+  getProductBySlug: async (slug) => {
+    const response = await api.get('/store/products/', { params: { slug } });
+    return response.data.results?.[0] || null;
+  },
+
   searchProducts: async (query) => {
     const response = await api.get('/store/search/', { params: { search: query } });
     return response.data;
@@ -28,6 +33,13 @@ export const productService = {
 
   submitReview: async (reviewData) => {
     const response = await api.post('/store/reviews/create/', reviewData);
+    return response.data;
+  },
+
+  getSimilarProducts: async (productId, categoryId) => {
+    const response = await api.get('/store/products/', { 
+      params: { category: categoryId, exclude: productId, limit: 4 } 
+    });
     return response.data;
   }
 };
